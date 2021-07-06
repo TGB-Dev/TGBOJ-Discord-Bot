@@ -11,13 +11,15 @@ bot.on("message", async message =>{
     if (text === "ping"){
         message.channel.send("Xin chào, đây là TGBOt !");
     }
+    if (text === "orz"){
+        message.channel.send("orz");
+    }
     console.log(text);
     //commands with prefix
     if (text.startsWith(pref)){
         const args = text.slice(pref.length).trim().split(/ +/);
         const command = args.shift().toLowerCase();
-        console.log(args);
-        if (command === "avatar"){
+        if (command === "avatar" || command === "avt"){
             let member = message.mentions.users.first() || message.author
             let avatar = member.displayAvatarURL({dynamic: true, size: 1024})
             const embed = new Discord.MessageEmbed()
