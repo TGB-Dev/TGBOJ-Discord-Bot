@@ -9,7 +9,8 @@ bot.on("message", async message =>{
     if (message.author.bot) return;
     const text = message.content.toLowerCase();
     if (text === "ping"){
-        message.channel.send("Xin chào, đây là TGBOt!");
+        message.channel.send(`Xin chào, đây là TGBOt!
+> prefix là *`+pref+'*');
     }
     if (text === "orz"){
         message.channel.send("orz");
@@ -19,6 +20,7 @@ bot.on("message", async message =>{
     if (text.startsWith(pref)){
         const args = text.slice(pref.length).trim().split(/ +/);
         const command = args.shift().toLowerCase();
+
         switch (command){
             case "avatar":
             case "avt":
@@ -35,7 +37,15 @@ bot.on("message", async message =>{
 
 
         //help commands
+        if (command === "help"){
+            message.channel.send(String.fromCharCode(96,96,96)+'ini'+`
+[Lệnh không cần prefix] 
+- ping: để ping bot
 
+[Lệnh cần prefix(`+pref+`)]
+- help: danh sách lệnh
+- avatar/avt: xem ảnh đại diện của người được tag hoặc bản thân`+String.fromCharCode(96,96,96))
+        }
     }
 })
 bot.login(process.env.DISCORDBOT_TOKEN);
