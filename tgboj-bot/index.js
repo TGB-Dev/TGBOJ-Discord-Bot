@@ -35,7 +35,6 @@ bot.on("message", async message =>{
         }
         
 
-
         //help commands
         if (command === "help"){
             message.channel.send(String.fromCharCode(96,96,96)+'ini'+`
