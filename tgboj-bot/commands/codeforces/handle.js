@@ -37,6 +37,6 @@ module.exports = {
                     }});
                 }
                 else message.channel.send("Không tồn tại người dùng có tên như vậy");
-            });
+            }).then(date=>console.log(data));
     }
 }
