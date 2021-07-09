@@ -13,7 +13,7 @@ module.exports = {
                 if (data.status === "OK") {
                     profile = data.result[0];
                     message.channel.send('```ini\n'+"[Thông tin người dùng Codeforces]"+'```', {embed: {
-                        title: `${profile.firstName} ${profile.lastName}`,
+                        title: `${profile.handle}`,
                         url: `https://codeforces.com/profile/${userhandle}`,
                         /*"footer": {
                             "icon_url": profile.avatar,
@@ -22,14 +22,13 @@ module.exports = {
                           "thumbnail": {
                             "url": profile.titlePhoto
                         },
-                        sth: arr = Array.from(["rank", "maxRank", "rating", "maxRating", "country", "city", "organization"], x => {return {value:profile[x]}}),
+                        sth: arr = Array.from(["rank", "maxRank", "rating", "maxRating", "organization"], x => {return {value:profile[x]}}),
                         fields: [
-                            {name: 'Rank', value: arr[0].value},
+                            {name: 'Rank hiện tại', value: arr[0].value},
                             {name: 'Rank cao nhất', value:arr[1].value},
                             {name: 'Rating hiện tại', value: arr[2].value},
                             {name: 'Rating cao nhất', value: arr[3].value},
-                            {name: 'Thành phố - Quốc gia', value: arr[5].value+` - `+arr[4].value},
-                            {name: 'Tổ chức', value: arr[6].value},
+                            //{name: 'Tổ chức', value: arr[4].value},
                         ],
                         color: '0bb9ee',
                         //author: { name: },
@@ -37,6 +36,6 @@ module.exports = {
                     }});
                 }
                 else message.channel.send("Không tồn tại người dùng có tên như vậy");
-            }).then(date=>console.log(data));
+            })
     }
 }
