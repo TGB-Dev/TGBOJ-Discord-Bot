@@ -7,7 +7,7 @@ module.exports = {
     execute(client,message,args){
         if (!args[0]){
             const infos = message.client.commands.filter(x => x.category == 'Thông tin').map((x) => '`' + x.name + '`').join(', ');
-            //const codeforces = 
+            const codeforces = message.client.commands.filter(x => x.category == 'Codeforces').map((x) => '`' + x.name + '`').join(', ');
 
             message.channel.send({
                 embed: {
@@ -15,7 +15,8 @@ module.exports = {
                     author: { name: 'Hướng dẫn' },
                     footer: { text: client.config.discord.sauce},
                     fields: [
-                        { name: 'Thông tin', value: infos}
+                        { name: 'Thông tin', value: infos},
+                        { name: 'Codeforces', value: codeforces},
                     ],
                     timestamp: new Date(),
                     description: `Đây là các câu lệnh chung, nhập ${client.config.discord.prefix}help (câu lệnh cần xem) để xem chi tiết câu lệnh ấy. Ví dụ: ${client.config.discord.prefix}help help.`
