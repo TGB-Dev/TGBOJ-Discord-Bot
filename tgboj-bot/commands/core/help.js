@@ -19,7 +19,7 @@ module.exports = {
                         { name: 'Codeforces', value: codeforces},
                     ],
                     timestamp: new Date(),
-                    description: `Đây là các câu lệnh chung, nhập ${client.config.discord.prefix}help (câu lệnh cần xem) để xem chi tiết câu lệnh ấy. Ví dụ: ${client.config.discord.prefix}help help.`
+                    description: `Đây là các câu lệnh chung, nhập `+'`'+`${client.config.discord.prefix}help`+'`'+` (câu lệnh cần xem) để xem chi tiết câu lệnh ấy. Ví dụ: `+'`'+`${client.config.discord.prefix}help help`+'`'+`.`
                 }
             });
         } else {
