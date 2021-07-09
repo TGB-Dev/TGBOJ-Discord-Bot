@@ -28,8 +28,8 @@ for (const file of events) {
 client.on("message", async message =>{
     if (message.author.bot) return;
     const text = message.content.toLowerCase();
-    /*if (text === "orz"){
+    if (text === "orz"){
         message.channel.send("orz");
-    }*/
+    }
 })
 client.login(process.env.DISCORDBOT_TOKEN);
