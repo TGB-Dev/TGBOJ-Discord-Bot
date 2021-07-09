@@ -17,7 +17,6 @@ fs.readdirSync('./commands').forEach(dirs => {
         client.commands.set(command.name.toLowerCase(), command);
     };
 });
-
 const events = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 for (const file of events) {
     console.log(`Loading discord.js event ${file}`);
