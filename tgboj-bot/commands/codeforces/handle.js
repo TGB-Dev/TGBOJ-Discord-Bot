@@ -38,13 +38,14 @@ module.exports = {
                             return des;
                         })(),
                         fields: (()=>{
-                            const res = [
-                                {name: 'Rank hiện tại', value: capitalize(profile.rank)},
-                                {name: 'Rank cao nhất', value: capitalize(profile.maxRank)},
-                                {name: 'Rating hiện tại', value: profile.rating},
-                                {name: 'Rating cao nhất', value: profile.maxRating},
-                            ];
-                            if (profile.organization) res.push({name: 'Tổ chức', value: profile.organization});
+                            const res = [{name: '​', value: '​'}]; // Zero width character not
+                            if (profile.rank) res.push({name: 'Rank hiện tại', value: capitalize(profile.rank), inline: true});
+                            if (profile.maxRank) res.push({name: 'Rank cao nhất', value: capitalize(profile.maxRank), inline: true});
+                            res.push({name: '​', value: '​'}); // Zero width character not
+                            if (profile.rating) res.push({name: 'Rating hiện tại', value: profile.rating, inline: true});
+                            if (profile.maxRating) res.push({name: 'Rating cao nhất', value: profile.maxRating, inline: true});
+                            res.push({name: '​', value: '​'}); // Zero width character not
+                            if (profile.organization) res.push({name: 'Tổ chức', value: profile.organization, inline: false});
                             return res;
                         })(),
                         color: ({
