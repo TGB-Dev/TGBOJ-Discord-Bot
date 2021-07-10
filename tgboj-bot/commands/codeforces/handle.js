@@ -1,41 +1,68 @@
 const fetch = require('node-fetch');
+
+/**
+ * Capitalize string
+ * @param {string} s The input string.
+ * @return {string} Capitalized string
+ */
+function capitalize(s) {
+    return s.replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())));
+}
+
 module.exports = {
     name: 'handle',
     aliases: [],
     category: 'Codeforces',
     utilisation: '{prefix}handle [tên người dùng]',
-    execute(client, message, args){
-        if (!args[0]) return message.channel.send("Vui lòng nhập tên người dùng");
+    execute(client, message, args) {
+        if (!args[0]) return message.channel.send('Vui lòng nhập tên người dùng');
         const userhandle = args.shift();
-        const {file} = fetch(`https://codeforces.com/api/user.info?handles=${userhandle}`)
-            .then(response=>response.json())
-            .then(data=>{
-                if (data.status === "OK") {
-                    profile = data.result[0];
-                    message.channel.send('```ini\n'+"[Thông tin người dùng Codeforces]"+'```', {embed: {
-                        title: `${profile.handle}`,
+        fetch(`https://codeforces.com/api/user.info?handles=${userhandle}`)
+            .then((response)=>response.json())
+            .then((data)=>{
+                if (data.status === 'OK') {
+                    const profile = data.result[0];
+                    message.channel.send('```ini\n'+'[Thông tin người dùng Codeforces]'+'```', {embed: {
+                        title: userhandle,
                         url: `https://codeforces.com/profile/${userhandle}`,
-                        /*"footer": {
-                            "icon_url": profile.avatar,
-                            "text": userhandle
-                        },*/
-                          "thumbnail": {
-                            "url": profile.titlePhoto
+                        thumbnail: {
+                            'url': profile.titlePhoto,
                         },
-                        sth: arr = Array.from(["rank", "maxRank", "rating", "maxRating", "organization"], x => {return {value:profile[x]}}),
-                        fields: [
-                            {name: 'Rank hiện tại', value: arr[0].value},
-                            {name: 'Rank cao nhất', value:arr[1].value},
-                            {name: 'Rating hiện tại', value: arr[2].value},
-                            {name: 'Rating cao nhất', value: arr[3].value},
-                            //{name: 'Tổ chức', value: arr[4].value},
-                        ],
-                        color: '0bb9ee',
-                        //author: { name: },
+                        description: (()=>{
+                            let des = '';
+                            if (profile.firstName && profile.lastName) des += profile.firstName + ' ' + profile.lastName;
+                            else des += userhandle;
+                            if (profile.city) des += ', ' + profile.city;
+                            if (profile.country) des += ', ' + profile.country;
+                            if (profile.organization) des += '\nFrom ' + profile.organization;
+                            return des;
+                        })(),
+                        fields: (()=>{
+                            const res = [
+                                {name: 'Rank hiện tại', value: capitalize(profile.rank)},
+                                {name: 'Rank cao nhất', value: capitalize(profile.maxRank)},
+                                {name: 'Rating hiện tại', value: profile.rating},
+                                {name: 'Rating cao nhất', value: profile.maxRating},
+                            ];
+                            if (profile.organization) res.push({name: 'Tổ chức', value: profile.organization});
+                            return res;
+                        })(),
+                        color: ({
+                            'newbie': '808080',
+                            'pupil': '88cc22',
+                            'apprentice': '008000',
+                            'specialist': '03a89e',
+                            'expert': '0000ff',
+                            'candidate master': 'aa00aa',
+                            'master': 'ff8c00',
+                            'international master': 'ff8c00',
+                            'grandmaster': 'ff0000',
+                            'international grandmaster': 'ff0000',
+                            'legendary grandmaster': 'ff0000',
+                        })[profile.rank],
                         timestamp: new Date(),
                     }});
-                }
-                else message.channel.send("Không tồn tại người dùng có tên như vậy");
-            })
-    }
-}
+                } else message.channel.send('Không tồn tại người dùng có tên như vậy');
+            });
+    },
+};

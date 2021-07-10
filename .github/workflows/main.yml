@@ -1,0 +1,13 @@
+name: CI
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Activate ESLint
+        run: |
+          sudo npm i -g eslint
+          npm i --save-def eslint-config-google
+      - name: Lint code with ESLint
+        run: eslint . --ext .js,.jsx,.ts,.tsx
