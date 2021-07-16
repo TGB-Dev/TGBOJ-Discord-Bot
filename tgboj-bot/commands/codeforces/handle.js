@@ -63,7 +63,7 @@ module.exports = {
                         })[profile.rank],
                         timestamp: new Date(),
                     }});
-                } else message.channel.send('Không tồn tại người dùng có tên như vậy');
+                } else message.channel.send(`${client.emotes.error} - Không tồn tại người dùng có tên như vậy`);
             });
     },
 };
