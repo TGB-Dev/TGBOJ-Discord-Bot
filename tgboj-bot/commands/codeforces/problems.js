@@ -5,13 +5,13 @@ const fetch = require('node-fetch');
  * @param {Array} arr The input array.
  * @return {Element} Random element from the array.
  */
- function randomElement(arr) {
+function randomElement(arr) {
     return arr[Math.floor(arr.length * Math.random())];
 }
 
 module.exports = {
     name: 'problems',
-    aliases: ['prob','pr','pb'],
+    aliases: ['prob', 'pr', 'pb'],
     category: 'Codeforces',
     utilisation: ``+'`'+`tgb!problems`+'`'+` random , để lấy ngẫu nhiên một bài hoặc
 
@@ -22,11 +22,11 @@ module.exports = {
                   Nhập lệnh: `+'`'+`tgb!tags`+'`'+` để xem tất cả các tags`,
     execute(client, message, args) {
         const type = args[0];
-        if (type === 'random'){
+        if (type === 'random') {
             fetch(`https://codeforces.com/api/problemset.problems`)
-                .then(response => response.json())
+                .then((response) => response.json())
                 .then((data)=>{
-                    if (data.status === 'OK'){
+                    if (data.status === 'OK') {
                         const prob = randomElement(Array.from(data.result.problems));
                         message.channel.send({embed: {
                             description: `Link bài: https://codeforces.com/problemset/problem/${prob.contestId}/${prob.index}`,
@@ -34,7 +34,7 @@ module.exports = {
                             author: {name: `Bài tập ngẫu nhiên cho ${message.author.username}`},
                             footer: {text: client.config.discord.sauce},
                             fields: (()=>{
-                                const res  = [{name: 'Tags', value: `||`+ prob.tags.join(', ')+`||`}];
+                                const res = [{name: 'Tags', value: `||`+ prob.tags.join(', ')+`||`}];
                                 if (prob.rating) res.unshift({name: 'Độ khó (rating)', value: prob.rating});
                                 if (prob.type) res.unshift({name: 'Thể loại', value: prob.type});
                                 return res;
@@ -49,32 +49,38 @@ module.exports = {
             const cnt = val.length;
             const maxRating = val[cnt-2];
             const minRating = val[cnt-3];
-            var probcnt = val[cnt-1];
+            let probcnt = val[cnt-1];
             if (probcnt < 1 || probcnt > 25) probcnt = 25;
-            var query = '';
-            for (var i = 0;i < cnt - 4; i++)
+            let query = '';
+            for (let i = 0; i < cnt - 4; i++) {
                 query += val[i] + '&';
+            }
             query += val[cnt - 4];
             console.log(query);
             fetch(`https://codeforces.com/api/problemset.problems?tags=${query}`)
-                .then(response => response.json())
+                .then((response) => response.json())
                 .then((data)=>{
-                    if (data.status === 'OK'){
-                        if (isNaN(val[cnt-1])||isNaN(val[cnt-2])||isNaN(val[cnt-3]))
+                    if (data.status === 'OK') {
+                        if (isNaN(val[cnt-1])||isNaN(val[cnt-2])||isNaN(val[cnt-3])) {
                             return message.channel.send(`${client.emotes.error} - Ba tham số cuối phải là số và hợp lệ`);
-                        const probs = Array.from(data.result.problems).filter((x) => x.rating<=maxRating && x.rating>=minRating);        
-                        var out = [randomElement(probs)]; 
-                        for (var i = 0; i < probcnt - 1; i++)
+                        }
+                        const probs = Array.from(data.result.problems).filter((x) => x.rating<=maxRating && x.rating>=minRating);
+                        const out = [randomElement(probs)];
+                        for (let i = 0; i < probcnt - 1; i++) {
                             out.push(randomElement(probs));
-                        out.sort((a, b) => {return a.rating - b.rating});
+                        }
+                        out.sort((a, b) => {
+                            return a.rating - b.rating;
+                        });
                         message.channel.send({embed: {
                             description: ``,
                             title: `${probcnt} bài tập theo tags cho ${message.author.username}`,
                             footer: {text: client.config.discord.sauce},
                             fields: (()=>{
                                 const res = [];
-                                for (x in out)
-                                    res.push({name: `${out[x].name}, Rating: ${out[x].rating}`, value: `https://codeforces.com/problemset/problem/${out[x].contestId}/${out[x].index}`, inline: false}),console.log(x);
+                                for (x of out) {
+                                    res.push({name: `${x.name}, Rating: ${x.rating}`, value: `https://codeforces.com/problemset/problem/${x.contestId}/${x.index}`, inline: false});
+                                }
                                 return res;
                             })(),
                             color: '0bb9ee',
