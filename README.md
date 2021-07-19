@@ -1,3 +1,3 @@
 # TGBOJ-Discord-Bot
 
-Authors: Lecatox, TwoQuantumBits
+Authors: Lecatox, TwoQuantumBits, Ziap
