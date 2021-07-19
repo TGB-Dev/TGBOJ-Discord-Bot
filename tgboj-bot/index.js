@@ -31,12 +31,12 @@ client.on('message', async (message) =>{
         message.channel.send('orz');
     }
 });
-//Database (MongoDB)
-const mongoose = require('mongoose'); 
+// Database (MongoDB)
+const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_SRV, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false
+    useFindAndModify: false,
 }).then(()=>{
     console.log(`Database đã sống, kết nối với TGBOt`);
 });

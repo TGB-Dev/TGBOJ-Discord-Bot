@@ -5,13 +5,14 @@ const fetch = require('node-fetch');
  * Random string
  * @return {string} A random string.
  */
-function randomstring(){
-    var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < 10; i++ ) 
+function randomstring() {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    const charactersLength = characters.length;
+    for ( let i = 0; i < 10; i++ ) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
-   return result;
+    }
+    return result;
 }
 
 /**
@@ -19,7 +20,7 @@ function randomstring(){
  * @param {string} s The input string.
  * @return {string} Capitalized string
  */
- function capitalize(s) {
+function capitalize(s) {
     return s.replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())));
 }
 
@@ -28,22 +29,22 @@ module.exports = {
     aliases: ['id'],
     category: 'Codeforces',
     utilisation: '{prefix}identify <handle Codeforces của bạn>',
-    execute(client, message, args){
+    execute(client, message, args) {
         if (!args[0]) return message.channel.send('Vui lòng nhập tên handle Codeforces');
 
         const id = message.author.id;
         const handle = args.shift();
-        User.findOne({discordID: id}).then(data => {
-            if (!data){
-                User.findOne({codeforcesHandle: handle}).then(data => {
-                    if (data){
+        User.findOne({discordID: id}).then((data) => {
+            if (!data) {
+                User.findOne({codeforcesHandle: handle}).then((data) => {
+                    if (data) {
                         message.channel.send(`${client.emotes.error} - Handle Codeforces này đã được liên kết với một tài khoản Discord khác`);
                     } else {
                         fetch(`https://codeforces.com/api/user.info?handles=${handle}`)
                             .then((response)=>response.json())
                             .then((data)=>{
                                 if (data.status === 'OK') {
-                                    var countdown = 60;
+                                    let countdown = 60;
                                     const key = randomstring();
                                     message.channel.send(`<@!${message.author.id}>`, {embed: {
                                         title: 'BẠN CÓ 60 GIÂY',
@@ -51,7 +52,7 @@ module.exports = {
                                         footer: {text: client.config.discord.sauce},
                                         timestamp: new Date(),
                                     }});
-                                    let verifying = setInterval(function () {
+                                    const verifying = setInterval(function() {
                                         countdown -= 5;
                                         fetch(`https://codeforces.com/api/user.info?handles=${handle}`)
                                             .then((response)=>response.json())
@@ -60,7 +61,7 @@ module.exports = {
                                                 if (profile.firstName == key) {
                                                     clearInterval(verifying);
                                                     const newuser = new User({discordID: id, codeforcesHandle: handle});
-                                                    newuser.save(function (err, newuser) {
+                                                    newuser.save(function(err, newuser) {
                                                         if (err) return console.error(err);
                                                         message.channel.send(`<@!${message.author.id}>,kết nối thành công`, {embed: {
                                                             title: profile.handle,
@@ -109,11 +110,11 @@ module.exports = {
                                             });
                                         if (countdown == 0) {
                                             clearInterval(verifying);
-                                            message.channel.send(`<@!${message.author.id}>, xác nhận không thành công, vui lòng thử lại`)
+                                            message.channel.send(`<@!${message.author.id}>, xác nhận không thành công, vui lòng thử lại`);
                                         }
                                     }, 5000);
                                 } else message.channel.send(`${client.emotes.error} - Không tồn tại Codeforces Handle như vậy`);
-                            });    
+                            });
                     }
                 });
             } else message.channel.send(`${client.emotes.error} - Tài khoản Discord của bạn đã liên kết với một Handle, vui lòng ${client.config.discord.prefix}unidentify trước khi liên kết lại`);
@@ -126,5 +127,5 @@ module.exports = {
                 console.log("Result :", doc) // true
             }
         });*/
-    }
-}
+    },
+};

@@ -1,10 +1,8 @@
 const mongoose = require('mongoose');
-
-const db = mongoose.connection;
-//CodeforcesHandleSchema
+// CodeforcesHandleSchema
 const handleSchema = new mongoose.Schema({
     discordID: String,
-    codeforcesHandle: String
+    codeforcesHandle: String,
 });
 const User = mongoose.model('User', handleSchema);
-module.exports = User; 
+module.exports = User;
