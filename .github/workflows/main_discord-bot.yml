@@ -32,8 +32,6 @@ jobs:
     - name: Run Azure webapp deploy action using publish profile credentials
       uses: azure/webapps-deploy@v2
       with:
-        app-name: Discord-Bot
-        slot-name: Production
         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0590443772A046FA8173B5B89BE27CFD }}
         package: .
 
